@@ -1,0 +1,297 @@
+(require '[clj-http.client :as client])
+(def url "https://www.oantagonista.com/")
+url
+(cliente/get url)
+(client/get url)
+exit
+def params 'conversationId':'',
+            'paginaConsulta': '1',
+            'localPesquisa.cdLocal': '-1',
+            'cbPesquisa': 'NUMPROC',
+            'tipoNuProcesso': 'UNIFICADO',
+            'numeroDigitoAnoUnificado': numeroDigitoAnoUnificado,
+            'foroNumeroUnificado': foroNumeroUnificado,
+            'dePesquisaNuUnificado': self.numero_original,
+            'dePesquisa': "",
+            'uuidCaptcha': "",
+(def params {"a": 1}
+)
+(def params hash-map {"a":1})
+(def params {"a" 1}
+)
+params
+(def params {"a" 1, "b" 2})
+params
+(get 1 params)
+(get params 1)
+(get params "a")
+(get params "b")
+(get "a" params)
+(get params "b")
+(get params "a")
+(def params             {'conversationId' '',)
+            'paginaConsulta' '1',
+            'localPesquisa.cdLocal' '-1',
+            'cbPesquisa' 'NUMPROC',
+            'tipoNuProcesso' 'UNIFICADO',
+            'numeroDigitoAnoUnificado' numeroDigitoAnoUnificado,
+            'foroNumeroUnificado' foroNumeroUnificado,
+            'dePesquisaNuUnificado' self.numero_original,
+            'dePesquisa' "",
+            'uuidCaptcha' "",
+            'pbEnviar' "Pesquisar"}
+(def parasm {'conversationId' '',
+'paginaConsulta' '1',
+'localPesquisa.cdLocal' '-1',
+'cbPesquisa' 'NUMPROC',
+'tipoNuProcesso' 'UNIFICADO',
+'numeroDigitoAnoUnificado' numeroDigitoAnoUnificado,
+'foroNumeroUnificado' foroNumeroUnificado,
+'dePesquisaNuUnificado' self.numero_original,
+'dePesquisa' "",
+'uuidCaptcha' "",
+'pbEnviar' "Pesquisar"})
+(def params {'conversationId' '',)
+'paginaConsulta' '1',
+'localPesquisa.cdLocal' '-1',
+'cbPesquisa' 'NUMPROC',
+'tipoNuProcesso' 'UNIFICADO',
+'numeroDigitoAnoUnificado' numeroDigitoAnoUnificado,
+'foroNumeroUnificado' foroNumeroUnificado,
+'dePesquisaNuUnificado' self.numero_original,
+'dePesquisa' "",
+'uuidCaptcha' "",
+{'conversationId' '',
+'paginaConsulta' '1',
+'localPesquisa.cdLocal' '-1',
+'cbPesquisa' 'NUMPROC',
+'tipoNuProcesso' 'UNIFICADO',
+'numeroDigitoAnoUnificado' numeroDigitoAnoUnificado,
+'foroNumeroUnificado' foroNumeroUnificado,
+'dePesquisaNuUnificado' self.numero_original,
+'dePesquisa' "",
+'uuidCaptcha' "",
+{"conversationId" "", 
+"dadosConsulta.localPesquisa.cdLocal" "-1"
+"cbPesquisa" "NUMPROC",
+"dadosConsulta.tipoNuProcesso" "UNIFICADO",
+"numeroDigitoAnoUnificado" "1025036-08.2016",
+"foroNumeroUnificado" "0506",
+"dadosConsulta.valorConsultaNuUnificado" "1025036-08.2016.8.26.0506",
+"dadosConsulta.valorConsulta" "",
+"uuidCaptcha" ""}
+(def params {"conversationId" "", 
+"dadosConsulta.localPesquisa.cdLocal" "-1"
+"cbPesquisa" "NUMPROC",
+"dadosConsulta.tipoNuProcesso" "UNIFICADO",
+"numeroDigitoAnoUnificado" "1025036-08.2016",
+"foroNumeroUnificado" "0506",
+"dadosConsulta.valorConsultaNuUnificado" "1025036-08.2016.8.26.0506",
+"dadosConsulta.valorConsulta" "",
+"uuidCaptcha" ""})
+params
+exi
+(spit "teste_clojure.html" (client/get "http://esaj.tjsp.jus.br/cpopg/show.do?processo.codigo=E200091IH0000&processo.foro=506&uuidCaptcha=sajcaptcha_9f4bf726470948bba03218716650a93a"))
+[net.cgrand.enlive-html :as html]
+exit
+[net.cgrand.enlive-html :as html]
+(:require [net.cgrand.enlive-html :as html])
+'require [net.cgrand.enlive-html :as html]
+(:require [net.cgrand.enlive-html :as html])
+(require 'org.httpkit.client :as http)
+(:require '[net.cgrand.enlive-html :as html])
+(require '[org.httpkit.client :as http])
+(require '[net.cgrand.enlive-html :as html])
+(def url_tjsp "http://esaj.tjsp.jus.br/cpopg/show.do?processo.codigo=E200091IH0000&processo.foro=506&uuidCaptcha=sajcaptcha_9f4bf726470948bba03218716650a93a")
+url_tjsp
+(html/html-snippet url_tjsp)
+(http/get url_tjsp)
+(:body (http/get url_tjsp))
+(:body @(http/get url_tjsp))
+(html/html url_tjsp)
+(html/html-content url_tjsp)
+(html/resource url_tjsp)
+(html/html-resource url_tjsp)
+(html/html url_tjsp)
+(:body @(http/get url_tjsp))
+(spit "teste_clojure.html"(:body @(http/get url_tjsp)))
+(def conteudo (:body @(http/get url_tjsp)))
+conteudo
+(defn get-dom
+  []
+  (html/html-snippet
+      (:body @(http/get url_tjsp {:insecure? true}))))
+(get-dom)
+a
+conteudo
+(html/select conteudo [:a])
+(html/select conteudo [:tbody])
+(html/select conteudo [a])
+(html/select conteudo [:a])
+(html/select conteudo [:div])
+(html/select conteudo [:body])
+(get-dom)
+conteudo
+(html/select conteudo [:tbody.tabelaTodasMovimentacoes])
+(html/html-snippet conteudo)
+(html/select (html/html-snippet conteudo) [:tbody])
+(html/select (html/select (html/html-snippet conteudo) [:tbody]) [:tr])
+(html/select (html/select (html/html-snippet conteudo) [:tbody]) [:content])
+(html/select (html/html-snippet conteudo) [:tbody])
+(html/select (html/select (html/html-snippet conteudo) [:tbody]) [:content])
+(html/select (html/html-snippet conteudo) [:tbody]) 
+(def content (html/select (html/html-snippet conteudo) [:tbody]) )
+content
+(type(content))
+(type content)
+content
+(get content :tr)
+(get content :tags)
+(get content :attrs)
+(get :attrs content)
+(count content)
+(vec content)
+(def content2 (vec content))
+(type content2)
+(get content 2)
+(get content2 2)
+(get content2 0)
+(get content2 2)
+(type (get content2 2))
+(get (get content2 2) :tag)
+(get (get content2 2) :content)
+(get (get (get content2 2) :content) :content)
+(type (get (get content2 2) :content) )
+(get content2 0)
+(map (fn [x] get x :tag) (get content2 0))
+(map (fn [x] get x :attrs) (get content2 0))
+(map (fn [x] get x :attrs) (get content2 1))
+(map (fn [x] get x :attrs) (get content2 2))
+(map (fn [x] get x :attrs) (get content2 0))
+(map (fn [x] get :content x) (get content2 0))
+(map (fn [x] get :tag x) (get content2 0))
+(def content (html/select (html/html-snippet conteudo) [:tbody.tabelaTodasMovimentacoes]) )
+content
+(html/select (html/html-snippet conteudo) [:tbody.tabelaTodasMovimentacoes]) 
+(html/select (html/html-snippet conteudo) [:#tbody]) 
+(html/select (html/html-snippet conteudo) [:tbody]) 
+(def content (html/select (html/html-snippet conteudo) [:tbody]) )
+(get content2 2)
+(get content2 5)
+(get content2 4)
+(get content2 3)
+(get content2 2)
+(html/select (html/html-snippet conteudo) [:tbody#tabelaTodasMovimentacoes]) 
+(def content (html/select (html/html-snippet conteudo) [:tbody#tabelaTodasMovimentacoes]) )
+(type content)
+(vec content2)
+(def content (vec content))
+content
+(type content)
+content
+(get content 0
+)
+(get content 0)
+(get content 1)
+(get content 0)
+(html/html-snippet content)
+(html/select content [:content])
+(html/select content [:tr])
+7
+(count (html/select content [:tr]))
+(vec (html/select content)
+)
+(vec (html/select content))
+html/text content)
+html/text content
+(vec content)
+(get (vec content) 0)
+(get (vec content) 1)
+(get (vec content) 0)
+(def content (html/select (html/html-snippet conteudo) [:tbody#tabelaTodasMovimentacoes]) )
+content
+(html/select conteudo [:tag])
+(html/select content [:tag])
+(html/select (html/html-snppet) content [:tag])
+(html/select (html/html-snppet content) [:tag])
+(html/select (html/html-snippet content) [:tag])
+(html/select (html/html-snippet content) [:tags])
+(html/select (html/html-snippet content) [:attrs])
+(html/select content [:tag])
+(html/html-snippet content)
+(html/select content [:tag])
+content
+(count content)
+(def content (html/select (html/html-snippet conteudo) [:tbody#tabelaTodasMovimentacoes]) )
+(count content)
+content
+(html/select content [:tr])
+(count (html/select content [:tr]) )
+(count (html/select content [:tr.fundoClaro]) )
+(count (html/select content [:tr.fundoEscuro]) )
+(count (html/select content [:tr.fundoClaro]) )
+ (html/select content [:tr.fundoClaro]) 
+(type (html/select content [:tr.fundoClaro]) )
+(get  (html/select content [:tr.fundoClaro]) 1)
+(get  (html/select content [:tr.fundoClaro]) 0)
+(get  (vec (html/select content [:tr.fundoClaro]) )0)
+(html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) )
+(println (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
+(get  (vec (html/select content [:tr.fundoClaro]) )0)
+(html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) )
+(get  (vec (html/select content [:tr.fundoClaro]) )0)
+(trim (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
+(require 'clojure.string))
+(require 'clojure.string)
+(trim (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
+(require '[clojure.string])
+(use 'clojure.string)
+(require '[(use 'clojure.string) :as html])
+(require '[clojure.string :as strs])
+(trim (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
+(println (trim (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) ) )
+(trimr (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
+(texto (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
+(def texto (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
+texto
+(split texto "\n")
+(split texto #"\n")
+(split texto #"\n\t")
+(split texto #"\t" "")
+(replace texto #"\t" "")
+(replace texto #"\t|\n" "")
+(defn clean texto 
+  (replace texto #"\t|\n" "")
+)
+(defn clean [texto] (replace text #"\t|\n" "")
+)
+(defn clean [texto] (replace text #"\t|\n" ""))
+(defn clean [texto] (replace texto #"\t|\n" ""))
+(clean texto)
+clear
+cls
+(vec (html/select content [:tr.fundoClaro]) )0
+(vec (html/select content [:tr.fundoClaro]) )
+(count (vec (html/select content [:tr.fundoClaro]) ))
+(def movs_claras (vec (html/select content [:tr.fundoClaro]) ) )
+movs_claras
+(def texto (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
+(map (html/text movs_claras)
+)
+(map (html/text) movs_claras)
+(map html/text movs_claras)
+(def textos (map html/text movs_claras) )
+(type textos)
+(get textos 1)
+textos
+(map clean textos)
+(get (map clean textos) 0)
+(vec (map clean textos) )
+(get (vec (map clean textos) 0)
+)
+(get (vec (map clean textos) ) 0)
+(get (vec (map clean textos) ) 1)
+(get (vec (map clean textos) ) 2)
+(println (get (vec (map clean textos) ) 2) )
+hist
+(def texto (html/text (get  (vec (html/select content [:tr.fundoClaro]) )0) ) )
