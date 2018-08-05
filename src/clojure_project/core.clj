@@ -3,12 +3,31 @@
             [net.cgrand.enlive-html :as html]
             [clojure.string :as strs]))
 
-(def url "https://esaj.tjsp.jus.br/cpopg/show.do?processo.codigo=1H0008UPE0000&processo.foro=53&uuidCaptcha=sajcaptcha_2739699031fa49a79ba4f010644d55f3")
+(def url "http://esaj.tjsp.jus.br/cpopg/search.do")
+
+(defn get-process-params [numeracao_unica]
+  (let [numero (strs/replace numeracao_unica #"\.|-" "")
+        numeroDigitoAnoUnificado (subs numero 0 13)
+        foroNumeroUnificado (subs numero 16)
+        ]
+
+    hash-map {:query-params {
+                       :conversationId ""
+                       :dadosConsulta.localPesquisa.cdLocal "-1"
+                       :cbPesquisa "NUMPROC"
+                       :dadosConsulta.tipoNuProcesso "UNIFICADO"
+                       :numeroDigitoAnoUnificado numeroDigitoAnoUnificado
+                       :forumNumeroUnificado foroNumeroUnificado
+                       :dadosConsulta.valorConsultaNuUnificado numero
+                       :dadosConsulta.valorConsulta ""
+                       }
+              :insecure? true
+              }))
 
 (defn get-dom
-  [url]
+  [url numeracao_unica]
   (html/html-snippet
-    (:body @(http/get url {:insecure? true}))))
+    (:body @(http/get url (get-process-params numeracao_unica)))))
 
 (defn get-movs-info
   "Get the tbody the containing the content of all movs"
@@ -74,14 +93,14 @@
     )
   )
 
-(defn -main []
-  (let [dom (get-dom url)
+(defn -main [numeracao_unica]
+  (let [dom (get-dom url numeracao_unica)
         partes (get-partes dom )
         lista-movimentacoes (get-movimentacoes dom)
-
+        dados-processo (hash-map :movimentacoes lista-movimentacoes
+                                 :partes partes)
         ]
-    (hash-map :movimentacoes lista-movimentacoes
-              :partes partes
-              )
+   (println (get dados-processo :movimentacoes))
+
     )
   )
