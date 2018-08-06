@@ -1,7 +1,8 @@
 (ns clojure-project.core
   (:require [org.httpkit.client :as http]
             [net.cgrand.enlive-html :as html]
-            [clojure.string :as strs]))
+            [clojure.string :as strs])
+  (:gen-class))
 
 (def url "http://esaj.tjsp.jus.br/cpopg/search.do")
 
@@ -139,7 +140,8 @@
                                  :partes partes
                                  :dados dados)
         ]
-    dados-processo
+    (println dados-processo)
+
 
     )
   )
