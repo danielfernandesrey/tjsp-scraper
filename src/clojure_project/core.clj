@@ -12,16 +12,16 @@
         ]
 
     hash-map {:query-params {
-                       :conversationId ""
-                       :dadosConsulta.localPesquisa.cdLocal "-1"
-                       :cbPesquisa "NUMPROC"
-                       :dadosConsulta.tipoNuProcesso "UNIFICADO"
-                       :numeroDigitoAnoUnificado numeroDigitoAnoUnificado
-                       :forumNumeroUnificado foroNumeroUnificado
-                       :dadosConsulta.valorConsultaNuUnificado numero
-                       :dadosConsulta.valorConsulta ""
-                       }
-              :insecure? true
+                             :conversationId                         ""
+                             :dadosConsulta.localPesquisa.cdLocal    "-1"
+                             :cbPesquisa                             "NUMPROC"
+                             :dadosConsulta.tipoNuProcesso           "UNIFICADO"
+                             :numeroDigitoAnoUnificado               numeroDigitoAnoUnificado
+                             :forumNumeroUnificado                   foroNumeroUnificado
+                             :dadosConsulta.valorConsultaNuUnificado numero
+                             :dadosConsulta.valorConsulta            ""
+                             }
+              :insecure?    true
               }))
 
 (defn get-dom
@@ -42,7 +42,7 @@
   )
 
 (defn get-movs-content [tr-text]
-  (strs/trim (get  (strs/split tr-text #"[0-9]{1,2}/[0-9]{1,2}/[0-9]{1,4} ") 1))
+  (strs/trim (get (strs/split tr-text #"[0-9]{1,2}/[0-9]{1,2}/[0-9]{1,4} ") 1))
   )
 
 (defn get-movs-date [tr-text]
@@ -54,18 +54,55 @@
   (not (strs/blank? str))
   )
 
+(defn get-info
+
+  ([lista start] (subvec lista start))
+  ([lista start end] (subvec lista start end))
+
+  )
+
 
 (defn clean [texto]
   "Clean the text of a mov"
   (strs/replace texto #"\t|\n" ""))
 
-(defn get-partes-info [tr]
-    (let [parte-text (clean (html/text tr))
-          partes-advogados-list (filterv not-blank? (strs/split parte-text #"  " ))
+(defn get-header
+  "Get the header of the page"
+  ([lista positions] (get-header lista positions [] 0))
 
-          ]
-      partes-advogados-list
-      )
+  ([lista positions result x]
+
+   (if (not= x (- (count positions) 1) )
+     (let [cont (+ x 1)
+           local-result (conj result (get-info lista (nth positions x) (nth positions cont) ) )
+           ]
+       (recur lista positions local-result cont)
+       )
+
+     (conj result (get-info lista (last positions) ))
+     ))
+  )
+
+(defn get-process-dados [dom]
+  (let [table (last (html/select dom [:table.secaoFormBody]))
+        texts-list (strs/split (strs/trim (clean (html/text table) ) ) #"\s{2,}")
+        index-elements (keep-indexed (fn [index item] [index (strs/ends-with? item ":" )]) texts-list)
+        keys (filter (fn [x] (true? (last x) ) ) index-elements)
+        positions (map (fn [x] (first x) ) keys)
+        ]
+
+    (get-header texts-list positions)
+    )
+  )
+
+
+(defn get-partes-info [tr]
+  (let [parte-text (clean (html/text tr))
+        partes-advogados-list (filterv not-blank? (strs/split parte-text #"  "))
+
+        ]
+    partes-advogados-list
+    )
   )
 
 
@@ -85,8 +122,8 @@
         trs-content (get-trs movs-content)
         text-content (map html/text trs-content)
         cleaned-text (map clean text-content)
-        movs-date (vec (map get-movs-date cleaned-text))
-        movs-content (vec (map get-movs-content cleaned-text))
+        movs-date (map get-movs-date cleaned-text)
+        movs-content (map get-movs-content cleaned-text)
         lista-movimentacoes (map vector movs-date movs-content)
         ]
     lista-movimentacoes
@@ -95,12 +132,14 @@
 
 (defn -main [numeracao_unica]
   (let [dom (get-dom url numeracao_unica)
-        partes (get-partes dom )
+        dados (get-process-dados dom)
+        partes (get-partes dom)
         lista-movimentacoes (get-movimentacoes dom)
         dados-processo (hash-map :movimentacoes lista-movimentacoes
-                                 :partes partes)
+                                 :partes partes
+                                 :dados dados)
         ]
-   (println (get dados-processo :movimentacoes))
+    dados-processo
 
     )
   )
