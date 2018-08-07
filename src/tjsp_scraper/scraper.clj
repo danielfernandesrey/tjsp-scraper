@@ -1,4 +1,4 @@
-(ns clojure-project.core
+(ns tjsp-scraper.scraper
   (:require [org.httpkit.client :as http]
             [net.cgrand.enlive-html :as html]
             [clojure.string :as strs])
@@ -156,3 +156,4 @@
 
     )
   )
+

@@ -1,6 +1,6 @@
-(defproject clojure_project "0.1.0-SNAPSHOT"
-  :main clojure-project.core
-  :aot [clojure-project.core]
+(defproject tjsp_scraper "0.1.0-SNAPSHOT"
+  :main tjsp-scraper.scraper
+  :aot [tjsp-scraper.scraper]
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
