@@ -140,11 +140,10 @@
     )
   )
 
-(defn -main [numeracao_unica]
-  "Main function.
-  Returns a hash-map containing 3 keys and it's values.
-  The keys are 'dados' 'partes' and 'movimentações.'"
-  (let [dom (get-dom url numeracao_unica)
+(defn extract-process-info [numeracao-unica]
+  "Returns a hash-map containing 3 keys and it's values.
+  The keys are 'dados' 'partes' and 'movimentações'."
+  (let [dom (get-dom url numeracao-unica)
         dados (get-process-dados dom)
         partes (get-partes dom)
         lista-movimentacoes (get-movimentacoes dom)
@@ -152,8 +151,14 @@
                                  :partes partes
                                  :dados dados)
         ]
-    (println dados-processo)
-
+    dados-processo
     )
+  )
+
+
+(defn -main [numeracao_unica]
+  "Main function."
+
+  (println (extract-process-info numeracao_unica))
   )
 
