@@ -9,22 +9,22 @@
 (defn get-process-params [numeracao_unica]
   "Return a hash-map representing the get params to request it's information."
   (let [numero (strs/replace numeracao_unica #"\.|-" "")
-        numeroDigitoAnoUnificado (subs numero 0 13)
-        foroNumeroUnificado (subs numero 16)
+        numero-digito-ano-unificado (subs numero 0 13)
+        foro-numero-unificado (subs numero 16)
         ]
 
-    hash-map {:query-params {
-                             :conversationId                         ""
-                             :dadosConsulta.localPesquisa.cdLocal    "-1"
-                             :cbPesquisa                             "NUMPROC"
-                             :dadosConsulta.tipoNuProcesso           "UNIFICADO"
-                             :numeroDigitoAnoUnificado               numeroDigitoAnoUnificado
-                             :forumNumeroUnificado                   foroNumeroUnificado
-                             :dadosConsulta.valorConsultaNuUnificado numero
-                             :dadosConsulta.valorConsulta            ""
-                             }
-              :insecure?    true
-              }))
+    {:query-params {
+                    :conversationId                         ""
+                    :dadosConsulta.localPesquisa.cdLocal    "-1"
+                    :cbPesquisa                             "NUMPROC"
+                    :dadosConsulta.tipoNuProcesso           "UNIFICADO"
+                    :numeroDigitoAnoUnificado               numero-digito-ano-unificado
+                    :forumNumeroUnificado                   foro-numero-unificado
+                    :dadosConsulta.valorConsultaNuUnificado numero
+                    :dadosConsulta.valorConsulta            ""
+                    }
+     :insecure?    true
+     }))
 
 (defn get-dom
   "Get the dom from a page as a html/html-snippet element."
@@ -80,24 +80,24 @@
   ([lista positions result x]
 
     ;Recursive get a list of string representing all of the information from the header of the process
-   (if (not= x (- (count positions) 1) )
+   (if (not= x (- (count positions) 1))
      (let [cont (+ x 1)
-           local-result (conj result (get-info lista (nth positions x) (nth positions cont) ) )
+           local-result (conj result (get-info lista (nth positions x) (nth positions cont)))
            ]
        (recur lista positions local-result cont)
        )
 
-     (conj result (get-info lista (last positions) ))
+     (conj result (get-info lista (last positions)))
      ))
   )
 
 (defn get-process-dados [dom]
   "Get the 'dados' field from a judicial process."
   (let [table (last (html/select dom [:table.secaoFormBody]))
-        texts-list (strs/split (strs/trim (clean (html/text table) ) ) #"\s{2,}")
-        index-elements (keep-indexed (fn [index item] [index (strs/ends-with? item ":" )]) texts-list)
-        keys (filter (fn [x] (true? (last x) ) ) index-elements)
-        positions (map (fn [x] (first x) ) keys)
+        texts-list (strs/split (strs/trim (clean (html/text table))) #"\s{2,}")
+        index-elements (keep-indexed (fn [index item] [index (strs/ends-with? item ":")]) texts-list)
+        keys (filter (fn [x] (true? (last x))) index-elements)
+        positions (map (fn [x] (first x)) keys)
         ]
 
     (get-header texts-list positions)
