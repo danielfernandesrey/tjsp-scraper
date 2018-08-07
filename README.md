@@ -2,15 +2,20 @@
 
 A simple scraper for the detail page of a single litigation from the Justice Court of the State of São Paulo.
 
+## Install Clojure and Leiningen 
+
+Clojure: https://clojure.org/guides/getting_started
+Leiningen: https://leiningen.org/#install
+
 ## Usage
 
 Just run the clojure_project-0.1.0-SNAPSHOT-standalone.jar file using the number of a judicial process from São Paulo.
 
 Ex:
 
-java -jar target/clojure_project-0.1.0-SNAPSHOT-standalone.jar 10673490420178260100
+java -jar target/tjsp_scraper-0.1.0-SNAPSHOT-standalone.jar 10673490420178260100
 
-java -jar target/clojure_project-0.1.0-SNAPSHOT-standalone.jar 1097007-73.2017.8.26.0100
+java -jar target/tjsp_scraper-0.1.0-SNAPSHOT-standalone.jar 1097007-73.2017.8.26.0100
 
 ## License
 
