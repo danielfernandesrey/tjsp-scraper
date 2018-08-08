@@ -61,14 +61,10 @@
   )
 
 (defn get-info
-
   "Receives a vector, a start position and a end position and return a subvector of the vector"
-
   ([lista start] (subvec lista start))
   ([lista start end] (subvec lista start end))
-
   )
-
 
 (defn clean [texto]
   "Clean the text of a mov"
@@ -78,12 +74,12 @@
   "Get the header of the page"
   ([lista positions] (get-header lista positions [] 0))
 
-  ([lista positions result x]
+  ([lista positions result index]
 
     ;Recursive get a list of string representing all of the information from the header of the process
-   (if (not= x (- (count positions) 1))
-     (let [cont (+ x 1)
-           local-result (conj result (get-info lista (nth positions x) (nth positions cont)))
+   (if (not= index (- (count positions) 1))
+     (let [cont (+ index 1)
+           local-result (conj result (get-info lista (nth positions index) (nth positions cont)))
            ]
        (recur lista positions local-result cont)
        )
@@ -168,10 +164,10 @@
          lista-movimentacoes (get-movimentacoes dom)
          dados-processo (hash-map :movimentacoes lista-movimentacoes
                                   :partes partes
-                                  :dados dados)
+                                  :dados dados
+                                  :numeracao-unica numeracao-unica)
          ]
      (if write-to-disk
-
        (save-dados-processo dados-processo (get-file-name numeracao-unica))
        )
      dados-processo
