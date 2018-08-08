@@ -1,6 +1,7 @@
 (ns tjsp-scraper.scraper_test
   (:require [clojure.test :refer :all]
-            [tjsp-scraper.scraper :refer :all]))
+            [tjsp-scraper.scraper :refer :all]
+            [clojure.string :as strs]))
 
 (deftest scraper-test
 
@@ -23,7 +24,9 @@
       (is (contains? process-info :dados))
       (is (contains? process-info :partes))
       (is (contains? process-info :movimentacoes))
+      (is (instance? clojure.lang.PersistentHashMap process-info))
       )
     )
+
   )
 
