@@ -113,8 +113,8 @@
         positions (map (fn [x] (first x)) keys)
         ]
 
-    [texts-list positions]
-    ;(get-header texts-list positions)
+
+    (get-header texts-list positions)
     )
   )
 
