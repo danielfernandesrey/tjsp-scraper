@@ -7,31 +7,46 @@
 
 (def url "http://esaj.tjsp.jus.br/cpopg/search.do")
 
-(defn get-process-params [numeracao_unica]
+(defn get-process-params [numeracao-unica]
   "Return a hash-map representing the get params to request it's information."
-  (let [numero (strs/replace numeracao_unica #"\.|-" "")
-        numero-digito-ano-unificado (subs numero 0 13)
-        foro-numero-unificado (subs numero 16)
-        ]
 
-    {:query-params {
-                    :conversationId                         ""
-                    :dadosConsulta.localPesquisa.cdLocal    "-1"
-                    :cbPesquisa                             "NUMPROC"
-                    :dadosConsulta.tipoNuProcesso           "UNIFICADO"
-                    :numeroDigitoAnoUnificado               numero-digito-ano-unificado
-                    :forumNumeroUnificado                   foro-numero-unificado
-                    :dadosConsulta.valorConsultaNuUnificado numero
-                    :dadosConsulta.valorConsulta            ""
-                    }
-     :insecure?    true
-     }))
+  (if (nil? numeracao-unica)
+    {}
+    (let [numero (strs/replace numeracao-unica #"\.|-" "")
+          numero-digito-ano-unificado (subs numero 0 13)
+          foro-numero-unificado (subs numero 16)
+          ]
+
+      {:query-params {
+                      :conversationId                         ""
+                      :dadosConsulta.localPesquisa.cdLocal    "-1"
+                      :cbPesquisa                             "NUMPROC"
+                      :dadosConsulta.tipoNuProcesso           "UNIFICADO"
+                      :numeroDigitoAnoUnificado               numero-digito-ano-unificado
+                      :forumNumeroUnificado                   foro-numero-unificado
+                      :dadosConsulta.valorConsultaNuUnificado numero
+                      :dadosConsulta.valorConsulta            ""
+                      }
+       :insecure?    true
+       }))
+    )
+
+
+
+(defn get-body
+  [url params]
+  (:body @(http/get url params)))
 
 (defn get-dom
   "Get the dom from a page as a html/html-snippet element."
-  [url numeracao_unica]
-  (html/html-snippet
-    (:body @(http/get url (get-process-params numeracao_unica)))))
+
+  ([url] (get-dom url nil))
+  ([url numeracao-unica]
+   (html/html-snippet
+     (get-body url (get-process-params numeracao-unica)))
+    )
+
+  )
 
 (defn get-movs-info
   "Get the tbody the containing the content of all movs"
@@ -79,7 +94,8 @@
     ;Recursive get a list of string representing all of the information from the header of the process
    (if (not= index (- (count positions) 1))
      (let [cont (+ index 1)
-           local-result (conj result (get-info lista (nth positions index) (nth positions cont)))
+           info (get-info lista (nth positions index) (nth positions cont))
+           local-result (conj result info)
            ]
        (recur lista positions local-result cont)
        )
