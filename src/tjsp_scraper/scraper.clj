@@ -1,7 +1,8 @@
 (ns tjsp-scraper.scraper
   (:require [org.httpkit.client :as http]
             [net.cgrand.enlive-html :as html]
-            [clojure.string :as strs])
+            [clojure.string :as strs]
+            [clojure.data.json :as json])
   (:gen-class))
 
 (def url "http://esaj.tjsp.jus.br/cpopg/search.do")
@@ -140,25 +141,49 @@
     )
   )
 
-(defn extract-process-info [numeracao-unica]
-  "Returns a hash-map containing 3 keys and it's values.
-  The keys are 'dados' 'partes' and 'movimentações'."
-  (let [dom (get-dom url numeracao-unica)
-        dados (get-process-dados dom)
-        partes (get-partes dom)
-        lista-movimentacoes (get-movimentacoes dom)
-        dados-processo (hash-map :movimentacoes lista-movimentacoes
-                                 :partes partes
-                                 :dados dados)
-        ]
-    dados-processo
-    )
+(defn get-file-name
+  "Get the file name to write the contento of the process to"
+  [numeracao_unica]
+  (->> (strs/replace numeracao_unica #"\.|-" "")
+       (format "%s.json")
+       )
+
   )
 
+(defn save-dados-processo
+  "Save the info from the processo to a json file."
+  [dados-processo nome-arquivo]
+  (spit nome-arquivo (json/write-str dados-processo))
+  )
 
-(defn -main [numeracao_unica]
+(defn extract-process-info
+  "Returns a hash-map containing 3 keys and it's values.
+  The keys are 'dados' 'partes' and 'movimentações'."
+
+  ([numeracao-unica] (extract-process-info numeracao-unica false))
+  ([numeracao-unica write-to-disk]
+   (let [dom (get-dom url numeracao-unica)
+         dados (get-process-dados dom)
+         partes (get-partes dom)
+         lista-movimentacoes (get-movimentacoes dom)
+         dados-processo (hash-map :movimentacoes lista-movimentacoes
+                                  :partes partes
+                                  :dados dados)
+         ]
+     (if write-to-disk
+
+       (save-dados-processo dados-processo (get-file-name numeracao-unica))
+       )
+     dados-processo
+     ))
+  )
+
+(defn -main
   "Main function."
+  ([numeracao_unica] (-main numeracao_unica false))
+  ([numeracao_unica write-to-disk]
+   (println (extract-process-info numeracao_unica write-to-disk))
+    )
 
-  (println (extract-process-info numeracao_unica))
   )
 
