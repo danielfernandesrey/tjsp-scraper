@@ -8,4 +8,5 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [clj-http "3.9.1"]
                  [enlive "1.1.6"]
-                 [http-kit "2.1.18"]])
+                 [http-kit "2.1.18"]
+                 [org.clojure/data.json "0.2.6"]])
