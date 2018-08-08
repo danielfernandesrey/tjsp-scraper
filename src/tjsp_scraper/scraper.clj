@@ -93,11 +93,11 @@
 
     ;Recursive get a list of string representing all of the information from the header of the process
    (if (not= index (- (count positions) 1))
-     (let [cont (+ index 1)
-           info (get-info lista (nth positions index) (nth positions cont))
+     (let [next-index (+ index 1)
+           info (get-info lista (nth positions index) (nth positions next-index))
            local-result (conj result info)
            ]
-       (recur lista positions local-result cont)
+       (recur lista positions local-result next-index)
        )
 
      (conj result (get-info lista (last positions)))
@@ -113,7 +113,8 @@
         positions (map (fn [x] (first x)) keys)
         ]
 
-    (get-header texts-list positions)
+    [texts-list positions]
+    ;(get-header texts-list positions)
     )
   )
 
@@ -140,7 +141,7 @@
   )
 
 (defn get-movimentacoes [dom]
-  "Extract the information related to the 'movimentaçõeses' field of a process."
+  "Extract the information related to the 'movimentações' field of a process."
   (let [movs-content (get-movs-info dom)
         trs-content (get-trs movs-content)
         text-content (map html/text trs-content)
