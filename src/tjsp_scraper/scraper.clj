@@ -29,7 +29,7 @@
                       }
        :insecure?    true
        }))
-    )
+  )
 
 
 
@@ -77,44 +77,49 @@
 
 (defn get-info
   "Receives a vector, a start position and a end position and return a subvector of the vector"
-  ([lista start] (subvec lista start))
-  ([lista start end] (subvec lista start end))
+  ([lista start]
+   (get-info lista start (count lista)))
+  ([lista start end]
+   (subvec lista start end))
   )
 
-(defn clean [texto]
-  "Clean the text of a mov"
-  (strs/replace texto #"\t|\n" ""))
+(defn vec->map
+  "Convert a vector with two positions to a map"
+  [line-vec]
+  (let [key (first line-vec)
+        value (strs/join " " (subvec line-vec 1))
+        ]
+    {key value}
+    )
+  )
 
 (defn get-header
   "Get the header of the page"
-  ([lista positions] (get-header lista positions [] 0))
-
-  ([lista positions result index]
-
-    ;Recursive get a list of string representing all of the information from the header of the process
-   (if (not= index (- (count positions) 1))
-     (let [next-index (+ index 1)
-           info (get-info lista (nth positions index) (nth positions next-index))
-           local-result (conj result info)
-           ]
-       (recur lista positions local-result next-index)
-       )
-
-     (conj result (get-info lista (last positions)))
-     ))
+  [lista positions]
+  (let [line-vec (get-info lista (first positions) (last positions))]
+    (vec->map line-vec)
+    )
   )
+
+(defn clean [texto]
+  "Clean a text"
+  (strs/replace texto #"\t|\n" ""))
 
 (defn get-process-dados [dom]
   "Get the 'dados' field from a judicial process."
   (let [table (last (html/select dom [:table.secaoFormBody]))
         texts-list (strs/split (strs/trim (clean (html/text table))) #"\s{2,}")
-        index-elements (keep-indexed (fn [index item] [index (strs/ends-with? item ":")]) texts-list)
-        keys (filter (fn [x] (true? (last x))) index-elements)
-        positions (map (fn [x] (first x)) keys)
+        chaves (filter (fn [x] (strs/ends-with? x ":")) texts-list)
+        positions (map (fn[chaves] (.indexOf texts-list chaves)) chaves)
+        processs-dados (mapv #(get-header texts-list %1) (partition 2 1 positions))
+        info->map (comp vec->map get-info)
         ]
 
+    (->> (info->map texts-list (last positions))
+         (conj processs-dados)
+         (reduce into {})
+         )
 
-    (get-header texts-list positions)
     )
   )
 
@@ -128,7 +133,6 @@
     partes-advogados-list
     )
   )
-
 
 (defn get-partes [dom]
   "Extract raw information about the 'partes' of a process and return it as list of lists."
